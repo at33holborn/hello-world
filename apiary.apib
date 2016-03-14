@@ -3,14 +3,6 @@ FORMAT: 1A
 # Identity
 Collection of API's used within Identity
 
-## Match User Collection [/matchuser]
-The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
-The aim of this API is to try to match the input parameters to user attributes within the one or
-more missions at Sainsburys.
-
-### Match user based on supplied attributes [POST]
-
-Get a match for user attributes response.
 
     Response Codes
         code
@@ -23,7 +15,15 @@ Get a match for user attributes response.
             4000 Bad Request
             4040 Not Found
             5000 Internal Server Error
+            
+## Match User Collection [/matchuser]
+The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
+The aim of this API is to try to match the input parameters to user attributes within the one or
+more missions at Sainsburys.
 
+### Match user based on supplied attributes [POST]
+
+Get a match for user attributes response.
 
 + Request (application/json)
     + Headers
@@ -61,11 +61,11 @@ Get a match for user attributes response.
                 }
             }
             
-## Verify User Collecion [/verify_user]
+## Verify User Collecion [/verify]
 The Verify API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to verify a user within a specific mission at Sainsburys.
 
-### Verify user with specified mission [GET]
+### Verify user against specified mission [GET]
 Verify user credentials attributes response.
 
 + Request (application/json)
@@ -90,4 +90,63 @@ Verify user credentials attributes response.
                 "mission": "ENTS",
                 "userid"    :   "s.shah@email.com",
                 "message": "200"
+            }
+            
+## User Merge [/mergeuser]
+The Merge API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
+The aim of this API is to try to merge other Sainsburys accounts into the identity My Account.
+
+### Merge accounts into the Identity My Account [POST]
+Get a response for the Merging of user attributes.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "mission"   :   "ENTS",
+                "UUID"      :   "6c59c99d-2c6b-4d65-adf0-7121da1ed76b",
+                "userid"    :   "s.shah@email.com"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "mission" : "ENTS",
+                "message" : "success",
+                "code"    : "200",
+                "id_code" : "2000"
+            }
+            
+## Update Nectar [/updateNectar]
+The Update Nectar API is a REST API for adding multiple nectar card number assoiciated with a User.
+
+### Add multiple Nectar cards associated with user [POST]
+Get a response for the Updating of user attribute nectarCard.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "UUID"              : "6c59c99d-2c6b-4d65-adf0-7121da1ed76b",
+                "nectarcard_number" : "0123456789"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "message" : "success",
+                "code"    : "200",
+                "id_code" : "2000"
             }

@@ -1,12 +1,12 @@
 FORMAT: 1A
 
 # Identity
+Collection of API's used within Identity
 
+## Match User Collection [/matchuser]
 The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to match the input parameters to user attributes within the one or
 more missions at Sainsburys.
-
-## Match User Collection [/matchuser]
 
 ### Match user based on supplied attributes [POST]
 
@@ -59,4 +59,35 @@ Get a match for user attributes response.
                     "code": "200",
                     "idcode": "2000"
                 }
+            }
+            
+## Verify User Collecion [/verify_user]
+The Verify API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
+The aim of this API is to try to verify a user within a specific mission at Sainsburys.
+
+### Verify user with specified mission [GET]
+Verify user credentials attributes response.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "mission"   :   "ENTS",
+                "id"        :   "id",
+                "userid"    :   "s.shah@email.com",
+                "password"  :   "e807f1fcf82d132f9bb018ca6738a19f"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "mission": "ENTS",
+                "userid"    :   "s.shah@email.com",
+                "message": "200"
             }

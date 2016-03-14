@@ -150,3 +150,149 @@ Get a response for the Updating of user attribute nectarCard.
                 "code"    : "200",
                 "id_code" : "2000"
             }
+            
+## Update Mobile [/updateMobile]
+The Update Mobile List API is a REST API for adding multiple mobile numbers to a mobile list assoiciated with a User.
+
+### Add multiple mobile numbers to a mobile list associated with a user [POST]
+Get a response for the Updating of user attribute mobile.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "uid"    : "shahs7784",
+                "mobile" : "07123456789"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "message" : "success",
+                "code"    : "200",
+                "id_code" : "2000"
+            }
+
+## Password Recovery [/passwordrecovery]
+The Password Recovery API will allow a user to initiate a password recovery for a mission via Identity.
+
+### Recover Password [GET]
+Get a response from a mission that a password recovery was initiated.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "mission" : "ENTS",
+                "user_id" : "s.shah@email.com"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "mission" : "ENTS",
+                "message" : "success",
+                "code"    : "200",
+                "id_code" : "2000"
+            }
+            
+## Add Card [/registercard]
+The add card service allows for the adding of a payment card to the users MyAccount profile.
+The API acts as a service end point for missions withing Sainsburys and will handle all remote calls to TLG.
+
+### Add Payment Card [POST]
+Get an autorisation response for adding card.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "amount"      : "1",
+                "description" : "Adding A New Payment Card",
+                "resultpage"  : "http://www.sainsburys.com"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "responsecodes": {
+                    "idcode": "2000",
+                    "code": "200"
+                },
+                "message": "success",
+                "transno": "8542746272",
+                "transref": "8baf67b9-7d83-413e-baa6-7120d29b3e50",
+                "url": "https://etestws1.secure-payment-processing.com/SOLVESAIN1/pages/paypage.jsf?transref\u003d8baf67b9-7d83-413e-baa6-7120d29b3e50\u0026store\u003d040006"
+            }
+            
+## Verify Card [/verifycard]
+
+### Verify Payment Card [POST]
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "transno"  : "123456789",
+                "transRef" : "ff5343b2-38e0-403b-8fed-f0dc4d628b2b"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "uniqueid" : "d7017ab0-f22a-4cb0-b657-f648ff2e1877",
+                "result"   : "success"
+            }
+
+## Available Missions [/availableMissions]
+The Avaialble Missions API is a REST API for getting the currently available missions.
+
+### Get available missions [GET]
+Get a response for the currently available missions.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "code"              : "200",
+                "availableMissions" : {
+                    "mission": [
+                        {"id": "GOL", "name": "Groceries"},
+                        {"id": "ENTS", "name": "Entertainment"},
+                        {"id": "TU", "name": "Clothing"},
+                        {"id": "MOBILE", "name": "Mobile"},
+                        {"id": "SMARTSHOP", "name": "Smartshop"},
+                        {"id": "BANK", "name": "Bank"}
+                    ]
+                }
+            }

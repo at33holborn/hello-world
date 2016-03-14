@@ -1,68 +1,62 @@
 FORMAT: 1A
 
-# HelloWorld
+# matchuser
 
-Hello World is a simple API allowing consumers to say hello!
+The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
+The aim of this API is to try to match the input parameters to user attributes within the one or
+more missions at Sainsburys.
 
-## World Collection [/worlds]
+## Match User Collection [/matchuser]
 
-### List All Worlds [GET]
-Here is the status 200 response.
+### Match user based on supplied attributes [POST]
+
+Get a match for user attributes response.
+
+    Response Codes
+        code
+            200 Success
+            400 Bad Request
+            404 Not Found
+            500 Internal Server Error
+        idcode
+            2000 Success
+            4000 Bad Request
+            4040 Not Found
+            5000 Internal Server Error
+
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "mission"   :   "ENTS",
+                "userid"    :   "s.shah@email.com",
+                "nectar"    :   "1234567890",
+                "firstname" :   "syed",
+                "lastname"  :   "shah"
+            }
 
 + Response 200 (application/json)
 
-        [
-            {
-                "worlds": [
-                    {
-                        "world": "Earth"
-                    }, {
-                        "world": "Jupiter"
-                    }, {
-                        "world": "Mars"
-                    }
-                ]
-            }
-        ]
-
-+ Response 404 (text/plain)
-
-        Requested resourse not found.
-    
-+ Response 500 (text/plain)
-
-        Server error.
-        
-
-### Create a New World [POST]
-
-You may create your own world using this action. It takes a JSON
-object containing a world.
-
-+ Request (application/json)
-
-        {
-            "world": "Saturn"
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /worlds
-
     + Body
-
+    
             {
-                "worlds": [
+                "mission": "ENTS",
+                "matchedmissionaccounts": {
                     {
-                        "world": "Earth"
-                    }, {
-                        "world": "Jupiter"
-                    }, {
-                        "world": "Mars"
-                    }, {
-                        "world": "Saturn"
+                        "lastloggedin": 1457439635,
+                        "missionUserId": "s.shah@email.com",
+                        "missionUserUUID": "MissionSpecificId",
+                        "loa": 10
                     }
-                ]
+                },
+                "message": "success",
+                "ResponseCodes:": {
+                    "code": "200",
+                    "idcode": "2000"
+                }
             }

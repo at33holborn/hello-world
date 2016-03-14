@@ -1,87 +1,68 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
 
-# at33holborn
+# HelloWorld
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Hello World is a simple API allowing consumers to say hello!
 
-## Questions Collection [/questions]
+## World Collection [/worlds]
 
-### List All Questions [GET]
+### List All Worlds [GET]
+Here is the status 200 response.
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "worlds": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
+                        "world": "Earth"
                     }, {
-                        "choice": "Python",
-                        "votes": 1024
+                        "world": "Jupiter"
                     }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }, {
-                        "choice": "Java",
-                        "votes": 2566
+                        "world": "Mars"
                     }
                 ]
             }
         ]
 
-### Create a New Question [POST]
++ Response 404 (text/plain)
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+        Requested resourse not found.
+    
++ Response 500 (text/plain)
+
+        Server error.
+        
+
+### Create a New World [POST]
+
+You may create your own world using this action. It takes a JSON
+object containing a world.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby",
-                "Java"
-            ]
+            "world": "Saturn"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /worlds
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "worlds": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
+                        "world": "Earth"
                     }, {
-                        "choice": "Python",
-                        "votes": 0
+                        "world": "Jupiter"
                     }, {
-                        "choice": "Objective-C",
-                        "votes": 0
+                        "world": "Mars"
                     }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }, {
-                        "choice": "Java",
-                        "votes": 0
+                        "world": "Saturn"
                     }
                 ]
             }

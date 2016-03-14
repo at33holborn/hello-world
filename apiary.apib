@@ -15,7 +15,9 @@ Collection of API's used within Identity
             4000 Bad Request
             4040 Not Found
             5000 Internal Server Error
-            
+
+# Group User Resources
+
 ## Match User [/matchuser]
 The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to match the input parameters to user attributes within the one or
@@ -122,7 +124,9 @@ Get a response for the Merging of user attributes.
                 "code"    : "200",
                 "id_code" : "2000"
             }
-            
+
+# Group Update Resources
+
 ## Update Nectar [/updateNectar]
 The Update Nectar API is a REST API for adding multiple nectar card number assoiciated with a User.
 
@@ -207,7 +211,38 @@ Get a response from a mission that a password recovery was initiated.
                 "code"    : "200",
                 "id_code" : "2000"
             }
-            
+
+## Available Missions [/availableMissions]
+The Avaialble Missions API is a REST API for getting the currently available missions.
+
+### Get available missions [GET]
+Get a response for the currently available missions.
+
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "code"              : "200",
+                "availableMissions" : {
+                    "mission": [
+                        {"id": "GOL", "name": "Groceries"},
+                        {"id": "ENTS", "name": "Entertainment"},
+                        {"id": "TU", "name": "Clothing"},
+                        {"id": "MOBILE", "name": "Mobile"},
+                        {"id": "SMARTSHOP", "name": "Smartshop"},
+                        {"id": "BANK", "name": "Bank"}
+                    ]
+                }
+            }
+
+# Group Payment Card Resources
+
 ## Add Card [/registercard]
 The add card service allows for the adding of a payment card to the users MyAccount profile.
 The API acts as a service end point for missions withing Sainsburys and will handle all remote calls to TLG.
@@ -268,31 +303,126 @@ Get an autorisation response for adding card.
                 "result"   : "success"
             }
 
-## Available Missions [/availableMissions]
-The Avaialble Missions API is a REST API for getting the currently available missions.
+# Group Bumblebee Nectar Card Resources
 
-### Get available missions [GET]
-Get a response for the currently available missions.
+## Get card info [/get-nectarcard-info]
+Checks the linking status and points balance of a Nectarcard.
+
+### Get nectar card info [POST]
+Checks the linking status and points balance of a Nectarcard.
+
+    Request Attributes
+        "nectar_number" : Nectarcard number
+
+    Response Attributes
+        "user_email_address"  : the email address stored against the given Nectarcard number.
+        "linked_status" : One of
+            "NOT" (not linked)
+            "LKD" (linked)
+            "UNL" (unlinked when previously linked)
+            "CLD" (linking process cancelled while the user was trying to link the card number)
+        "points_balance"      : number of points currently on the card
+        "balance_age_seconds" : time in seconds since the balance was last updated from the live balance stored by the Aimia Nectar service.
+
+    Response Codes
+        200 Success
+        422 Unprocessable Entity - when the request is malformed.
+        500 Internal Server Error
+        
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "nectar_number"      :   "68497459019"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "user_email_address"  : "test001.bumblebee@sainsburysentertainment.co.uk",
+                "linked_status"       : "LKD",
+                "points_balance"      : "2500",
+                "balance_age_seconds" : 3602627
+            }
+
+## Link card [/link-nectarcard]
+Checks the linking status and points balance of a Nectarcard.
+
+### Linking a card [POST]
+Initiates the card linking process, to link a Nectarcard to a user.
+
+    Request Attributes
+        "nectar_number"      : Nectarcard number
+        "user_email_address" : The user's email address
+        "return_url"         : The URL to redirect the browser to, when the linking process eventually succeeds
+
+    Response Attributes
+        user_email_address : The email address provided in the request.
+        uuid               : A UUID used by Bumblebee in some URLs
+        linking_url        : The URL to redirect the browser to at the end of the linking process
+
+    Response Codes
+        200 Success
+        422 Unprocessable Entity - when the request is malformed.
+        500 Internal Server Error
+        
++ Request (application/json)
+    + Headers
+    
+            Accept: application/json
+
+    + Body
+    
+            {
+                "nectar_number"      : "68497459019",
+                "user_email_address" : "test001.bumblebee@sainsburysentertainment.co.uk",
+                "return_url"         : "http://aservice.sainsburys.co.uk/nectarlinked"
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "user_email_address" : "test001.bumblebee@sainsburysentertainment.co.uk",
+                "uuid"               : "dfb299ee-0b91-4314-8e2a-109ec2e8711e",
+                "linking_url"        : "https://dev-nectar-linking.sainsburys.co.uk/link/nectar/dfb299ee-0b91-4314-8e2a-109ec2e8711e"
+            }
+        
+## Unlink card [/unlink-nectarcard]
+Initiates the card unlinking process, to remove the link between the Nectarcard and a user.
+
+### Unlink Card [POST]
+Request Attributes
+    "nectar_number" : Nectarcard number
+
+Response Attributes
+    user_email_address : the email address stored against the given Nectarcard number.
+    status             : one of "ok" or "fail_account". This is informational only.
+                         The status string 'account_fail' means that that there was an issue on the Aimia account side, and the actual response status code is 200/OK rather than an error response.
 
 + Request (application/json)
     + Headers
     
             Accept: application/json
 
+    + Body
+    
+            {
+                "nectar_number" : "68497459019"
+            }
+            
 + Response 200 (application/json)
 
     + Body
     
             {
-                "code"              : "200",
-                "availableMissions" : {
-                    "mission": [
-                        {"id": "GOL", "name": "Groceries"},
-                        {"id": "ENTS", "name": "Entertainment"},
-                        {"id": "TU", "name": "Clothing"},
-                        {"id": "MOBILE", "name": "Mobile"},
-                        {"id": "SMARTSHOP", "name": "Smartshop"},
-                        {"id": "BANK", "name": "Bank"}
-                    ]
-                }
+                "user_email_address" : "test001.bumblebee@sainsburysentertainment.co.uk",
+                "status"             : "fail_account"
             }

@@ -50,7 +50,7 @@ Get a match for user attributes response.
                 "mission": "ENTS",
                 "matchedmissionaccounts": {
                     {
-                        "lastloggedin": 1457439635,
+                        "lastloggedin": "1457439635",
                         "missionUserId": "s.shah@email.com",
                         "missionUserUUID": "MissionSpecificId",
                         "loa": 10
@@ -311,19 +311,6 @@ Checks the linking status and points balance of a Nectarcard.
 ### Get nectar card info [POST]
 Checks the linking status and points balance of a Nectarcard.
 
-    Request Attributes
-        "nectar_number" : Nectarcard number
-
-    Response Attributes
-        "user_email_address"  : the email address stored against the given Nectarcard number.
-        "linked_status" : One of
-            "NOT" (not linked)
-            "LKD" (linked)
-            "UNL" (unlinked when previously linked)
-            "CLD" (linking process cancelled while the user was trying to link the card number)
-        "points_balance"      : number of points currently on the card
-        "balance_age_seconds" : time in seconds since the balance was last updated from the live balance stored by the Aimia Nectar service.
-
     Response Codes
         200 Success
         422 Unprocessable Entity - when the request is malformed.
@@ -334,6 +321,9 @@ Checks the linking status and points balance of a Nectarcard.
     
             Accept: application/json
 
+    + Attributes (object)
+        + nectar_number: 1234567890 - Nectar card number
+        
     + Body
     
             {
@@ -341,6 +331,12 @@ Checks the linking status and points balance of a Nectarcard.
             }
             
 + Response 200 (application/json)
+
+    + Attributes (object)
+        + user_email_address: syed.shah@email.com (string) - The email address stored against the given Nectarcard number.
+        + linked_status: NOT (string) - One of: NOT (not linked), LKD (linked), UNL (unlinked when previously linked), CLD (linking process cancelled while the user was trying to link the card number).
+        + points_balance: 3456 (number) - Number of points currently on the card
+        + balance_age_seconds: 3456644433 (number) - Time in seconds since the balance was last updated from the live balance stored by the Aimia Nectar service.
 
     + Body
     

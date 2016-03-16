@@ -1,73 +1,44 @@
 FORMAT: 1A
 
 # Identity
-Collection of API's used within Identity
-
-
-    Response Codes
-        code
-            200 Success
-            400 Bad Request
-            404 Not Found
-            500 Internal Server Error
-        idcode
-            2000 Success
-            4000 Bad Request
-            4040 Not Found
-            5000 Internal Server Error
+This document defines all of the **REST**(ish) API's available from Identity.  They are loosely 
+grouped by resource type or function where possible.
 
 # Group User Resources
+This group defines the actions that can be performed on the resource **user**.
 
 ## Match User [/matchuser]
 The Match API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
-The aim of this API is to try to match the input parameters to user attributes within the one or
-more missions at Sainsburys.
+The aim of this API is to try to match the input parameters defined in the body to user
+attributes within the one or more missions at Sainsburys.
 
-### Match user based on supplied attributes [POST]
++ Attributes (MatchUserRequest)
+            
 
-Get a match for user attributes response.
+### Match [POST]
+This `POST` action calls each of the defined missions to see if a match for the **user**
+exists.  The request supplies a list of attributes used for matching purposes by each mission, the
+response lists the mission(s) where a match occured along with details of the matched **user** account.
 
 + Request (application/json)
     + Headers
     
             Accept: application/json
-
-    + Body
     
-            {
-                "mission"   :   "ENTS",
-                "userid"    :   "s.shah@email.com",
-                "nectar"    :   "1234567890",
-                "firstname" :   "syed",
-                "lastname"  :   "shah"
-            }
+    + Attributes (MatchUserRequest)
 
 + Response 200 (application/json)
 
-    + Body
-    
-            {
-                "mission": "ENTS",
-                "matchedmissionaccounts": {
-                    {
-                        "lastloggedin": "1457439635",
-                        "missionUserId": "s.shah@email.com",
-                        "missionUserUUID": "MissionSpecificId",
-                        "loa": 10
-                    }
-                },
-                "message": "success",
-                "ResponseCodes:": {
-                    "code": "200",
-                    "idcode": "2000"
-                }
-            }
+    + Attributes (MatchUserResponse)
+
             
 ## Verify User [/verify]
 The Verify API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to verify a user within a specific mission at Sainsburys.
 
-### Verify user against specified mission [GET]
++ Attributes (VerifyUserRequest)
+    
+### Verify [POST]
 Verify user credentials attributes response.
 
 + Request (application/json)
@@ -75,26 +46,14 @@ Verify user credentials attributes response.
     
             Accept: application/json
 
-    + Body
-    
-            {
-                "mission"   :   "ENTS",
-                "id"        :   "id",
-                "userid"    :   "s.shah@email.com",
-                "password"  :   "e807f1fcf82d132f9bb018ca6738a19f"
-            }
+    + Attributes (VerifyUserRequest)
             
 + Response 200 (application/json)
 
-    + Body
+    + Attributes (VerifyUserResponse)
     
-            {
-                "mission": "ENTS",
-                "userid"    :   "s.shah@email.com",
-                "message": "200"
-            }
             
-## User Merge [/mergeuser]
+## Merge [/mergeuser]
 The Merge API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to merge other Sainsburys accounts into the identity My Account.
 
@@ -106,25 +65,12 @@ Get a response for the Merging of user attributes.
     
             Accept: application/json
 
-    + Body
-    
-            {
-                "mission"   :   "ENTS",
-                "UUID"      :   "6c59c99d-2c6b-4d65-adf0-7121da1ed76b",
-                "userid"    :   "s.shah@email.com"
-            }
+    + Attributes (MergeUserRequest)
             
 + Response 200 (application/json)
 
-    + Body
+    + Attributes (MergeUserResponse)
     
-            {
-                "mission" : "ENTS",
-                "message" : "success",
-                "code"    : "200",
-                "id_code" : "2000"
-            }
-
 # Group Update Resources
 
 ## Update Nectar [/updateNectar]
@@ -422,3 +368,56 @@ Response Attributes
                 "user_email_address" : "test001.bumblebee@sainsburysentertainment.co.uk",
                 "status"             : "fail_account"
             }
+            
+# Data Structures
+
+## ResponseCodes (object)
+- code:     200     (string) - Status code from any API call external to Identity.
+- idcode:   2000    (string) - Status code from Identity.
+
+
+## MatchUserRequest (object)
++ mission:   ENTS             (string) - Short identifier used to locate mission to request match against.
++ userid:    s.shah@email.com (string) - Email address for user to match.
++ nectar:    1234567890       (string) - Nectar card number for user to match.
++ firstname: syed             (string) - Firstname of user to match.
++ lastname:  shah             (string) - Lastname of user to match.
+
+
+## MatchedMissionAccounts (object)
++ lastloggedin:         1457439635          (string) - Timestamp identifying last login time for user on defined mission.
++ missionUserId:        s.shah@email.com    (string) - User identifier from matching mission.
++ missionUserUUID:      123ABC              (string) - Mission specific identifier.
++ loa:                  1.0                 (number) - Level of authentication identifier.
+
+## MatchUserResponse (object)
++ mission:                  ENTS                (string) - Short identifier for mission that has successfully matched this user.
++ matchedmissionaccounts    (MatchedMissionAccounts) - Object containing details about the match mission account.
++ message:                  success             (string) - Message identifying status of call.
++ responsecodes (ResponseCodes) - Object containing list of response codes from call.
+
+
+## VerifyUserRequest (object)
++ mission:  ENTS                                (string) - Mission to verify user against.
++ id:       id                                  (string) - User identifier.
++ userid:   s.shah@email.com                    (string) - User identifier.
++ password: e807f1fcf82d132f9bb018ca6738a19f    (string) - Users password.
+    
+
+## VerifyUserResponse (object)
++ mission:    ENTS              (string) - Short identifier for mission that has successfully verified this user.
++ userid:     s.shah@email.com  (string) - User Identifier
++ message:    200               (string) - Message identifying status of call.
+
+
+## MergeUserRequest (object)
++ mission:  ENTS
++ UUID:     6c59c99d-2c6b-4d65-adf0-7121da1ed76b
++ userid:   s.shah@email.com
+
+
+## MergeUserResponse (object)
++ mission:  ENTS
++ message:  success
++ code:     200
++ id_code:  2000

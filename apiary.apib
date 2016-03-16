@@ -57,6 +57,8 @@ Verify user credentials attributes response.
 The Merge API is an interface between Sainsburys missions (Entertainment, TU Clothing, Bank...).
 The aim of this API is to try to merge other Sainsburys accounts into the identity My Account.
 
++ Attributes (MergeUserRequest)
+
 ### Merge accounts into the Identity My Account [POST]
 Get a response for the Merging of user attributes.
 
@@ -70,41 +72,34 @@ Get a response for the Merging of user attributes.
 + Response 200 (application/json)
 
     + Attributes (MergeUserResponse)
+
     
 # Group Update Resources
 
-## Update Nectar [/updateNectar]
-The Update Nectar API is a REST API for adding multiple nectar card number assoiciated with a User.
+## Nectar [/updateNectar]
+The Update Nectar API is a REST API for adding multiple nectar card number assoiciated with a
+**user**.
 
-### Add multiple Nectar cards associated with user [POST]
-Get a response for the Updating of user attribute nectarCard.
++ Attributes (UpdateNectarRequest)
+
+### Add Nectar Card [POST]
+Get a response for the updating of user attribute nectar card.
 
 + Request (application/json)
     + Headers
     
             Accept: application/json
 
-    + Body
+    + Attributes (UpdateNectarRequest)
     
-            {
-                "UUID"              : "6c59c99d-2c6b-4d65-adf0-7121da1ed76b",
-                "nectarcard_number" : "0123456789"
-            }
-            
 + Response 200 (application/json)
 
-    + Body
-    
-            {
-                "message" : "success",
-                "code"    : "200",
-                "id_code" : "2000"
-            }
+    + Attributes (UpdateNectarResponse)
             
-## Update Mobile [/updateMobile]
+## Mobile [/updateMobile]
 The Update Mobile List API is a REST API for adding multiple mobile numbers to a mobile list assoiciated with a User.
 
-### Add multiple mobile numbers to a mobile list associated with a user [POST]
+### Add Mobile Number [POST]
 Get a response for the Updating of user attribute mobile.
 
 + Request (application/json)
@@ -418,6 +413,17 @@ Response Attributes
 
 ## MergeUserResponse (object)
 + mission:  ENTS
++ message:  success
++ code:     200
++ id_code:  2000
+
+
+## UpdateNectarRequest
++ UUID:                 6c59c99d-2c6b-4d65-adf0-7121da1ed76b
++ nectarcard_number:    0123456789
+
+
+## UpdateNectarResponse
 + message:  success
 + code:     200
 + id_code:  2000
